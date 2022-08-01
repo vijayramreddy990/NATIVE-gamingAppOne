@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, {useRef} from 'react';
 import {
   View,
   Text,
@@ -10,9 +10,17 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import Carousel from 'react-native-snap-carousel';
 import Fether from 'react-native-vector-icons/Feather';
+import BannerSlider from '../components/BannerSlider';
+import {windowWidth} from '../utils/Dimensions';
+import {sliderData} from '../model/data';
 
 const HomeScreen = () => {
+  const ref = useRef(null);
+  const renderBanner = ({item, index}) => {
+    return <BannerSlider data={item} />;
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
@@ -44,6 +52,15 @@ const HomeScreen = () => {
             <Text style={[styles.textStyle, styles.seeAllText]}>See all</Text>
           </TouchableOpacity>
         </View>
+        {/* carousel */}
+        <Carousel
+          ref={ref}
+          data={sliderData}
+          renderItem={renderBanner}
+          sliderWidth={windowWidth - 40} //remove padding what we added
+          itemWidth={300}
+          loop={true}
+        />
       </ScrollView>
     </SafeAreaView>
   );
