@@ -5,12 +5,38 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  StatusBar,
 } from 'react-native';
 import GamingImg from './assets/images/misc/gaming.svg';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+
 const App = () => {
+  return (
+    <NavigationContainer>
+      {/* <StatusBar hidden={false} color={'black'} /> */}
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Main"
+          component={Main}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          // options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+const Main = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -19,11 +45,21 @@ const App = () => {
       <View style={styles.imageWrapper}>
         <GamingImg style={styles.imageStyle} width={300} height={300} />
       </View>
-      <TouchableOpacity style={styles.touchableButton}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Home')}
+        style={styles.touchableButton}>
         <Text style={styles.touchableText}>Let's Begin</Text>
         <MaterialIcons name="arrow-forward-ios" size={22} color="#FFF" />
       </TouchableOpacity>
     </SafeAreaView>
+  );
+};
+
+const Home = () => {
+  return (
+    <View style={styles.container}>
+      <Text>Home Screen</Text>
+    </View>
   );
 };
 
