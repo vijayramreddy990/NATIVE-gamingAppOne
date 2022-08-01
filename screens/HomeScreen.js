@@ -35,7 +35,7 @@ const HomeScreen = ({navigation}) => {
           <Text style={styles.textStyle}>Hello John Doe</Text>
           <TouchableOpacity
             onPress={() => {
-              navigation.goBack();
+              navigation.openDrawer();
             }}>
             <ImageBackground
               source={require('../assets/images/user-profile.jpg')}
