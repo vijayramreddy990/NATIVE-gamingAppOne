@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -14,12 +14,18 @@ import Carousel from 'react-native-snap-carousel';
 import Fether from 'react-native-vector-icons/Feather';
 import BannerSlider from '../components/BannerSlider';
 import {windowWidth} from '../utils/Dimensions';
-import {sliderData} from '../model/data';
+import {freeGames, paidGames, sliderData} from '../model/data';
+import CustomSwitch from '../components/CustomSwitch';
+import ListItem from '../components/ListItem';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
+  const [gamesTab, setGamesTab] = useState(1);
   const ref = useRef(null);
   const renderBanner = ({item, index}) => {
     return <BannerSlider data={item} />;
+  };
+  const onSelectSwitch = value => {
+    setGamesTab(value);
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -27,11 +33,16 @@ const HomeScreen = () => {
         {/* header */}
         <View style={styles.headerContainer}>
           <Text style={styles.textStyle}>Hello John Doe</Text>
-          <ImageBackground
-            source={require('../assets/images/user-profile.jpg')}
-            style={styles.bgImage}
-            imageStyle={styles.imgStyle}
-          />
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <ImageBackground
+              source={require('../assets/images/user-profile.jpg')}
+              style={styles.bgImage}
+              imageStyle={styles.imgStyle}
+            />
+          </TouchableOpacity>
         </View>
         {/* search box */}
         <View style={styles.searchBoxContainer}>
@@ -61,6 +72,42 @@ const HomeScreen = () => {
           itemWidth={300}
           loop={true}
         />
+        {/* custom switch */}
+        <View style={styles.customSwitch}>
+          <CustomSwitch
+            selecctionMode={1}
+            option1={'Free to play'}
+            option2={'Paid games'}
+            onSelectSwitch={onSelectSwitch}
+          />
+        </View>
+        {/* dynamic render section */}
+        {gamesTab === 1 &&
+          freeGames &&
+          freeGames.map(item => (
+            <ListItem
+              key={item.id}
+              item={item}
+              photo={item.poster}
+              title={item.title}
+              subTitle={item.subtitle}
+              price={item.price}
+              isFree={item.isFree}
+            />
+          ))}
+        {gamesTab === 2 &&
+          paidGames &&
+          paidGames.map(item => (
+            <ListItem
+              key={item.id}
+              item={item}
+              photo={item.poster}
+              title={item.title}
+              subTitle={item.subtitle}
+              price={item.price}
+              isFree={item.isFree}
+            />
+          ))}
       </ScrollView>
     </SafeAreaView>
   );
@@ -109,6 +156,9 @@ const styles = StyleSheet.create({
   boldText: {fontWeight: 'bold'},
   seeAllText: {
     color: '#0aada8',
+  },
+  customSwitch: {
+    marginVertical: 20,
   },
 });
 
