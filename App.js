@@ -13,6 +13,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import HomeScreen from './screens/HomeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,8 +29,8 @@ const App = () => {
         />
         <Stack.Screen
           name="Home"
-          component={Home}
-          // options={{headerShown: false}}
+          component={HomeScreen}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>
@@ -52,14 +53,6 @@ const Main = ({navigation}) => {
         <MaterialIcons name="arrow-forward-ios" size={22} color="#FFF" />
       </TouchableOpacity>
     </SafeAreaView>
-  );
-};
-
-const Home = () => {
-  return (
-    <View style={styles.container}>
-      <Text>Home Screen</Text>
-    </View>
   );
 };
 
